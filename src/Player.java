@@ -10,7 +10,7 @@ public class Player extends GameCharacter {
 		System.out.println("Strength: a measure of how much damage you do per hit");
 		System.out.println("Skill: a measure of how well you defend against attacks");
 		System.out.println("Health: a measure of how much damage you can take before dying");
-		System.out.print("press enter to continue");
+		System.out.println("press enter to continue");
 		kb.nextLine();
 		addStats(statPoints,kb);
 
@@ -35,10 +35,10 @@ public class Player extends GameCharacter {
 		statPoints-=health;
 //		TODO set up check for valid entry
 //		TODO set up check for has remaining points
-		setStrength(strength);
-		setSkill(skill);
-		setHealth(health);
-		
+		setStrength(strength+5);
+		setSkill(skill+3);
+		setHealth(health*10+50);
+		kb.nextLine();
 	}
 	
 
