@@ -40,7 +40,7 @@ public class GameCharacter {
 		this.skill = skill;
 	}
 	public int attack(int strength) {
-		return strength*2;
+		return strength*(1+(int)(Math.random()*2));
 	}
 	public int damage(int attack, int skill) {
 		return attack-skill;

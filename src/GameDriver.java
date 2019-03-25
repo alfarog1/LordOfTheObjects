@@ -18,11 +18,11 @@ public class GameDriver {
 		Enemy e3 = new Enemy("Harry and Marv");
 		Enemy e4 = new Enemy("pizza guy");
 		Intro(kb);
-		this.Combat(e1, p1);
+		this.Combat(e1, p1, kb);
 		Alleyway(kb);
-		this.Combat(e2, p1);
+		this.Combat(e2, p1, kb);
 		CentralPark(kb);
-		this.Combat(e3, p1);
+		this.Combat(e3, p1,kb);
 		PizzaParlor(kb, p1, e4);
 
 	}
@@ -109,7 +109,7 @@ public class GameDriver {
 			String answer = kb.nextLine().toLowerCase();
 			switch (answer) {
 			case "a":
-				Combat(e4, p1);
+				Combat(e4, p1, kb);
 				break;
 			case "b":
 				rockPaperScissors(kb);
@@ -203,28 +203,41 @@ public class GameDriver {
 		}
 	}
 
-	public void Combat(Enemy villain, Player hero) {
-		System.out.println("\nThis " + villain.getName() + " wants to fight!");
-		// set up combat options
-
-		while (true) {
-			if (villainAttack(villain, hero)) {
-				Wasted();
-				System.exit(0);
-				break;
-			}
-			if (heroAttack(villain, hero))
-				break;
-		}
-		// Grammar needs fixing
-		System.out.printf("\nYou won the fight with %d health left and got $%.2f from %s's pockets. %n",
-				hero.getHealth(), villain.getMoney(), villain.getName());
-		hero.setMoney(hero.getMoney() + villain.getMoney());
-		System.out.println("");
-		Enter();
-		kb.nextLine();
-
-	}
+	public void Combat(Enemy villain, Player hero, Scanner kb) {
+        boolean KO= false;
+        System.out.println("\nThis " + villain.getName() + " wants to fight!");
+        // set up combat options
+        for (int i = 0; i < 1;) {
+            while (true) {
+                if (villainAttack(villain, hero)) {
+                    System.out.println("WASTED");
+                    System.exit(0);
+                    break;
+                }
+                System.out.println("Keep wailing on him?(y/n)");
+                if (kb.nextLine().toUpperCase().equals("Y")) {
+                    if (heroAttack(villain, hero))
+                        KO =true;
+                        break;
+                } else
+                    i++;
+                    KO = false;
+                    System.out.println("Didn't realise I was a wuss!");
+                    break;
+            }
+            // Grammar needs fixing
+            if (KO) {
+                i++;
+                System.out.printf("\nYou won the fight with %d health left and got $%.2f from %s's pockets. %n",
+                        hero.getHealth(), villain.getMoney(), villain.getName());
+                hero.setMoney(hero.getMoney() + villain.getMoney());
+                System.out.printf("You have $%.2f%n", hero.getMoney());
+                
+                Enter();
+                kb.nextLine();
+            }
+        }
+    }
 
 	public boolean villainAttack(Enemy villain, Player hero) {
 		int damage = 0;
